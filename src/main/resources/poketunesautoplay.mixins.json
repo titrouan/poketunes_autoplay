@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "fr.titrouan.poketunesautoplay.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"ExampleMixin",
+		"MusicTypeMixin",
+		"SoundInstanceMixin",
+		"SoundManagerMixin",
+		"SoundManagerAccessor"
+	],
+	"client": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
