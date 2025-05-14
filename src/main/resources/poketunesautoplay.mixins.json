@@ -3,10 +3,9 @@
 	"package": "fr.titrouan.poketunesautoplay.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin",
-		"SoundInstanceMixin",
-		"SoundManagerMixin",
-		"SoundManagerAccessor",
+		"MinecraftClientMixin",
+		"OptionsScreenMixin",
+		"SoundManagerBlockerMixin",
 		"TitleScreenMixin"
 	],
 	"client": [],

@@ -38,3 +38,7 @@ replay_*.log
 *.hprof
 *.jfr
 /.github/
+/run/
+/build/
+/.gradle/
+/.github/

@@ -9,15 +9,16 @@
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/titrouan/poketunes_autoplay/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/poketunes-autoplay/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"client": [
 			"fr.titrouan.poketunesautoplay.PokeTunesAutoPlay"
-		]
+		],
+		"modmenu": [ "fr.titrouan.poketunesautoplay.config.ModMenuIntegration" ]
 	},
 	"mixins": [
       "poketunesautoplay.mixins.json"
@@ -29,6 +30,23 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"another-mod": "*",
+		"modmenu-badges-lib": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/ezMmzSkMHe"
+			},
+			"update_checker": true
+		},
+		"mcb": [
+			{
+				"name": "Music",
+				"labelColor": -1842205,
+				"fillColor": -14024625,
+				"outlineColor": -8570926
+			}
+		]
 	}
 }

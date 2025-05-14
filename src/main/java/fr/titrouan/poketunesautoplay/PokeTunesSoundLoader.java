@@ -1,6 +1,7 @@
 package fr.titrouan.poketunesautoplay;
 
 import com.google.gson.*;
+import fr.titrouan.poketunesautoplay.config.LangHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
@@ -47,20 +48,18 @@ public class PokeTunesSoundLoader {
                         int weight = soundObj.has("weight") ? soundObj.get("weight").getAsInt() : 100;
 
                         musics.add(new PokeTunesMusic(soundId, name, volume, weight));
-                        //System.out.println("[PokeTunes AutoPlay] Musique chargée : " + soundId + " -> " + name + " (volume: " + volume + ", poids: " + weight + ")");
-                        //System.out.println("[PokeTunes AutoPlay] Loaded music : " + soundId + " -> " + name + " (volume: " + volume + ", weight: " + weight + ")");
+                        //System.out.println(LangHelper.get("log.soundloader.music.loaded", soundId, name, volume, weight));
                     }
                 } catch (Exception e) {
-                    System.err.println("[PokeTunes AutoPlay] Erreur lors du parsing d'une entrée : " + key);
-                    System.err.println("[PokeTunes AutoPlay] Error while parsing an entry : " + key);
+                    System.err.println(LangHelper.get("log.soundloader.error.entry.parsing", key));
                     e.printStackTrace();
                 }
             }
 
-            System.out.println("[PokeTunes AutoPlay] " + musics.size() + " musiques chargées / musics loaded");
+            System.out.println(LangHelper.get("log.soundloader.loadedmusics.getnumber", musics.size()));
 
         } catch (Exception e) {
-            System.err.println("[PokeTunes AutoPlay] Erreur lors du chargement de sounds.json / Error loading sounds.json.");
+            System.err.println(LangHelper.get("log.soundloader.error.soundsjson.load"));
             e.printStackTrace();
         }
 

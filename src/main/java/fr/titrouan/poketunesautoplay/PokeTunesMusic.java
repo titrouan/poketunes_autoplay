@@ -7,8 +7,9 @@ import net.minecraft.util.Identifier;
  * Represents a music entry from the sounds.json file.
  */
 public class PokeTunesMusic {
-    public final Identifier id; // "poketunes:xxx
+    public final Identifier id; // "poketunes:xxx"
     public final String sourcePath; // "poketunes:music/game/xxx"
+    public String realPath; // "sounds/music/game/xxx.ogg"
     public final float volume;
     public final int weight;
 
@@ -17,6 +18,11 @@ public class PokeTunesMusic {
         this.sourcePath = sourcePath;
         this.volume = volume;
         this.weight = weight;
+
+        String[] parts = sourcePath.split("/");
+        if (parts.length >= 3 && parts[0].equals("poketunes:music")) {
+            this.realPath = "music/" + parts[1] + "/" + parts[2] + ".ogg";
+        }
     }
 
     public String getCategory() {

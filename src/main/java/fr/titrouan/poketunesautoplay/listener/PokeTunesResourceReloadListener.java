@@ -3,6 +3,7 @@ package fr.titrouan.poketunesautoplay.listener;
 import fr.titrouan.poketunesautoplay.PokeTunesAutoPlay;
 import fr.titrouan.poketunesautoplay.PokeTunesMusic;
 import fr.titrouan.poketunesautoplay.PokeTunesSoundLoader;
+import fr.titrouan.poketunesautoplay.config.LangHelper;
 import fr.titrouan.poketunesautoplay.managers.PokeTunesMusicManager;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
@@ -25,24 +26,19 @@ public class PokeTunesResourceReloadListener implements SimpleSynchronousResourc
 
     @Override
     public void reload(ResourceManager manager) {
-        System.out.println("[PokeTunes AutoPlay] Déclenchement du ResourceReloadListener : rechargement de sounds.json");
-        System.out.println("[PokeTunes AutoPlay] ResourceReloadListener trigger: sounds.json reload");
+        System.out.println(LangHelper.get("log.resreload.trigger.load.soundsjson"));
         List<PokeTunesMusic> musics = PokeTunesSoundLoader.loadGameMusics();
 
         if (musics.isEmpty()) {
-            System.err.println("[PokeTunes AutoPlay] Échec du chargement de musiques depuis sounds.json !");
-            System.err.println("[PokeTunes AutoPlay] Failed to load musics from sounds.json !");
+            System.err.println(LangHelper.get("log.resreload.error.musics.load.soundsjson"));
         } else {
             musicManager.setAvailableMusics(musics);
             musicManager.markSoundsLoaded();
-            System.out.println("[PokeTunes AutoPlay] Musiques rechargées avec succès !");
-            System.out.println("[PokeTunes AutoPlay] Musics successfully reloaded !");
+            System.out.println(LangHelper.get("log.resreload.musics.load.soundsjson"));
 
             PokeTunesAutoPlay.RESOURCES_READY = true;
-            System.out.println("[PokeTunes AutoPlay] Les ressources sont prêtes !");
-            System.out.println("[PokeTunes AutoPlay] Resources are ready !");
-            System.out.println("[PokeTunes AutoPlay] Musiques rechargées avec succès ! Total : " + musics.size());
-            System.out.println("[PokeTunes AutoPlay] Musics successfully reloaded ! Total : " + musics.size());
+            System.out.println(LangHelper.get("log.resreload.resources.ready"));
+            System.out.println(LangHelper.get("log.resreload.resources.reloaded", musics.size()));
         }
     }
 }

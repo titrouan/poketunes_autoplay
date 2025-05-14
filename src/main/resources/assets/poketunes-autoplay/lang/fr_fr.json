@@ -1,0 +1,15 @@
+{
+  "poketunes.config.title": "PokeTunes AutoPlay - Configuration",
+  "poketunes.config.category.general": "Paramètres généraux",
+  "poketunes.config.fadein": "Fondu d'entrée (en secondes)",
+  "poketunes.config.fadein.tooltip": "Durée du fondu d'entrée de la musique",
+  "poketunes.config.fadeout": "Fondu de sortie (en secondes)",
+  "poketunes.config.fadeout.tooltip": "Durée du fondu de sortie de la musique",
+  "poketunes.config.mindelay": "Délai minimal entre deux musiques (en secondes)",
+  "poketunes.config.mindelay.tooltip": "Temps minimum d’attente entre deux musiques",
+  "poketunes.config.maxdelay": "Délai maximal entre deux musiques (en secondes)",
+  "poketunes.config.maxdelay.tooltip": "Temps maximum d’attente entre deux musiques",
+  "poketunes.config.playpause": "Lecture",
+  "poketunes.config.playpause.desc": "Mettre en pause ou reprendre la musique",
+  "poketunes.config.currenttrack": "Musique actuelle : <non disponible>"
+}

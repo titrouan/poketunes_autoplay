@@ -1,5 +1,6 @@
 package fr.titrouan.poketunesautoplay;
 
+import fr.titrouan.poketunesautoplay.config.LangHelper;
 import fr.titrouan.poketunesautoplay.listener.PokeTunesResourceReloadListener;
 import fr.titrouan.poketunesautoplay.managers.PokeTunesMusicManager;
 import net.fabricmc.api.ClientModInitializer;
@@ -36,15 +37,22 @@ public class PokeTunesAutoPlay implements ClientModInitializer {
 
 	public static final PokeTunesMusicManager musicManager = new PokeTunesMusicManager(MinecraftClient.getInstance());
 
+	public static boolean isPaused() {
+		return musicManager != null && musicManager.getPlayer() != null && musicManager.getPlayer().isPaused();
+	}
+	public static boolean togglePaused() {
+		return musicManager != null && musicManager.getPlayer() != null && musicManager.getPlayer().togglePause();
+	}
+
 	@Override
 	public void onInitializeClient() {
-		LOGGER.info("Hello Fabric world, it's PokeTunes AutoPlay !");
-		LOGGER.info("[PokeTunes AutoPlay] Initialisation du mod / Mod initialization");
+		LOGGER.info(LangHelper.get("log.start.helloworld"));
+		LOGGER.info(LangHelper.get("log.start.modinit"));
 
 		// Étape 1 : Chargement de la configuration
 		// Step 1 : Loading the configuration
 		ConfigManager.loadConfig();
-		LOGGER.info("[PokeTunes AutoPlay] Configuration chargée / Configuration loaded");
+		LOGGER.info(LangHelper.get("log.start.config.loaded"));
 
 		// Étape 2 : Enregistrement du listener de reload pour charger les musiques du pack
 		//Step 2 : Recording the reload listener to load the pack’s music

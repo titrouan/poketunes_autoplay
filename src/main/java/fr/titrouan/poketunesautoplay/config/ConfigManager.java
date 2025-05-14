@@ -16,10 +16,14 @@ public class ConfigManager {
     private static final File CONFIG_FILE = new File(CONFIG_DIR, "config.json");
     private static final File INFO_FILE = new File(CONFIG_DIR, "config_info.txt");
 
-    public static int fadeIn = 20;
-    public static int fadeOut = 100;
-    public static int minDelay = 1100;
-    public static int maxDelay = 1300;
+    private static final int DEFAULT_FADEIN = 5; //100 ticks
+    private static final int DEFAULT_FADEOUT = 5; //100 ticks
+    private static final int DEFAULT_MINDELAY = 55; //1100 ticks
+    private static final int DEFAULT_MAXDELAY = 65; //1300 ticks
+    public static int fadeIn = DEFAULT_FADEIN;
+    public static int fadeOut = DEFAULT_FADEOUT;
+    public static int minDelay = DEFAULT_MINDELAY;
+    public static int maxDelay = DEFAULT_MAXDELAY;
 
     public static void loadConfig() {
         if (!CONFIG_FILE.exists()) {
@@ -29,20 +33,37 @@ public class ConfigManager {
 
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
-            fadeIn = json.has("fadeIn") ? json.get("fadeIn").getAsInt() : fadeIn;
-            fadeOut = json.has("fadeOut") ? json.get("fadeOut").getAsInt() : fadeOut;
-            minDelay = json.has("minDelay") ? json.get("minDelay").getAsInt() : minDelay;
-            maxDelay = json.has("maxDelay") ? json.get("maxDelay").getAsInt() : maxDelay;
+            fadeIn = json.has("fadeIn") ? json.get("fadeIn").getAsInt() * 20 : DEFAULT_FADEIN * 20;
+            fadeOut = json.has("fadeOut") ? json.get("fadeOut").getAsInt() * 20 : DEFAULT_FADEOUT * 20;
+            minDelay = json.has("minDelay") ? json.get("minDelay").getAsInt() * 20 : DEFAULT_MINDELAY * 20;
+            maxDelay = json.has("maxDelay") ? json.get("maxDelay").getAsInt() * 20 : DEFAULT_MAXDELAY * 20;
         } catch (IOException e) {
-            System.err.println("[PokeTunes AutoPlay] Erreur de lecture du fichier de configuration");
-            System.err.println("[PokeTunes AutoPlay] Error reading the configuration file");
+            System.out.println(LangHelper.get("log.config.error.play"));
+        }
+    }
+
+    public static void saveConfig() {
+        if (!CONFIG_DIR.exists() && !CONFIG_DIR.mkdirs()) {
+            System.err.println(LangHelper.get("log.config.error.create.configfolder"));
+            return;
+        }
+
+        JsonObject json = new JsonObject();
+        json.addProperty("fadeIn", fadeIn / 20);
+        json.addProperty("fadeOut", fadeOut / 20);
+        json.addProperty("minDelay", minDelay / 20);
+        json.addProperty("maxDelay", maxDelay / 20);
+
+        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+            GSON.toJson(json, writer);
+        } catch (IOException e) {
+            System.err.println(LangHelper.get("log.config.error.write.configfile"));
         }
     }
 
     public static void saveDefaultConfig() {
         if (!CONFIG_DIR.exists() && !CONFIG_DIR.mkdirs()) {
-            System.err.println("[PokeTunes AutoPlay] Impossible de créer le dossier de configuration");
-            System.err.println("[PokeTunes AutoPlay] Unable to create the configuration folder");
+            System.err.println(LangHelper.get("log.config.error.create.configfolder"));
             return;
         }
 
@@ -55,8 +76,7 @@ public class ConfigManager {
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(json, writer);
         } catch (IOException e) {
-            System.err.println("[PokeTunes AutoPlay] Erreur d'écriture du fichier de configuration");
-            System.err.println("[PokeTunes AutoPlay] Error writing the configuration file");
+            System.err.println(LangHelper.get("log.config.error.write.configfile"));
         }
 
         saveInfoFile();
@@ -65,18 +85,17 @@ public class ConfigManager {
     private static void saveInfoFile() {
         String infoContent = "Configuration de PokeTunes AutoPlay / PokeTunes AutoPlay configuration\n" +
                 "-------------------------------------\n" +
-                "fadeIn : Durée du fondu d'entrée en ticks (défaut : 20 = 1s) / Fade-in duration in ticks (default : 20 = 1s)\n" +
-                "fadeOut : Durée du fondu de sortie en  ticks (défaut : 100 = 5s) / Fade-out duration in ticks (default : 100 = 5s)\n" +
-                "minDelay : Temps minimal entre deux musiques en ticks (défaut : 1100 = 55s) / Minimal time between two musics in ticks (default : 1100 = 55s)\n" +
-                "maxDelay : Temps maximal entre deux musiques en ticks (défaut : 1300 = 65s) / Maximal time between two musics in ticks (default : 1300 = 65s)\n" +
-                "\nLes temps en ticks doivent correspondre à des entiers en secondes, les décimales ne fonctionnent pas (ex : 55s c'est bon, 55.30s c'est pas bon).\n/The times in ticks must correspond to integers in seconds, decimals do not work (ex: 55s is good, 55.30s is not good).\n" +
+                "fadeIn : Durée du fondu d'entrée en secondes (défaut : 5s = 100 ticks) / Fade-in duration in seconds (default : 5s = 100 ticks)\n" +
+                "fadeOut : Durée du fondu de sortie en secondes (défaut : 5s = 100 ticks) / Fade-in duration in seconds (default : 5s = 100 ticks)\n" +
+                "minDelay : Temps minimal entre deux musiques en secondes (défaut : 55s = 1100 ticks) / Minimal time between two musics in seconds (default : 55s = 1100 ticks)\n" +
+                "maxDelay : Temps maximal entre deux musiques en secondes (défaut : 65s = 1300 ticks) / Maximal time between two musics in seconds (default : 65s = 1300 ticks)\n" +
+                "\nLes temps en secondes doivent correspondre à des entiers en ticks, les décimales ne fonctionnent pas (ex : 55s c'est bon, 55.30s c'est pas bon).\n/The times in seconds must correspond to integers in ticks, decimals do not work (ex: 55s is good, 55.30s is not good).\n" +
                 "Modifiez config.json pour changer ces valeurs. / Modify config.json to change those values.\n";
 
         try (FileWriter writer = new FileWriter(INFO_FILE)) {
             writer.write(infoContent);
         } catch (IOException e) {
-            System.err.println("[PokeTunes AutoPlay] Erreur d'écriture du fichier d'informations");
-            System.err.println("[PokeTunes AutoPlay] Error writing the information file");
+            System.err.println(LangHelper.get("log.config.error.write.infofile"));
         }
     }
 }

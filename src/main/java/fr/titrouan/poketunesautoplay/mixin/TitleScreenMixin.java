@@ -1,6 +1,7 @@
 package fr.titrouan.poketunesautoplay.mixin;
 
 import fr.titrouan.poketunesautoplay.PokeTunesAutoPlay;
+import fr.titrouan.poketunesautoplay.config.LangHelper;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,8 +16,7 @@ public class TitleScreenMixin {
     private void onMenuVisible(CallbackInfo ci) {
         if (!poketunesautoplay$menuDisplayed) {
             poketunesautoplay$menuDisplayed = true;
-            //System.out.println("[PokeTunes AutoPlay] Le menu principal est maintenant visible !");
-            //System.out.println("[PokeTunes AutoPlay] Main menu is now visible !");
+            //System.out.println(LangHelper.get("log.titlescreenmixin.visible"));
             PokeTunesAutoPlay.musicManager.markMenuReady();
         }
     }
